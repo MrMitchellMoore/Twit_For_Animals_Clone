@@ -6,6 +6,12 @@ const app = express();
 // middlewares
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+function isValidMew(mew) {
+  return mew.name && mew.name.toString().trim() !== ''
+  && mew.content && mew.content.toString().trim() !== '';
+}
 
 // routes
 app.get('/', (req, res) => {
@@ -15,7 +21,17 @@ app.get('/', (req, res) => {
 });
 
 app.post('/mews', (req, res) => {
-  console.log(req.body);
+  if (isValidMew(req.body)) {
+    // somestuff
+    const mew = {
+      name: req.body.name.toString(),
+      content: req.body.content.toString(),
+    };
+    console.log(mew);
+  } else {
+    res.status(422);
+    console.log('name and content required');
+  }
 });
 
 // fire up server

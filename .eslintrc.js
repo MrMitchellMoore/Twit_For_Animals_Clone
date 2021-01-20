@@ -5,5 +5,6 @@ module.exports = {
     'no-undef': 0,
     'no-console': 0,
     'no-unused-vars': 0,
+    'no-lonely-if': 0,
   },
 };
