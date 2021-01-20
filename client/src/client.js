@@ -1,6 +1,8 @@
 const form = document.querySelector('form');
 const loadingElement = document.querySelector('.loading');
 
+const API_URL = 'http://localhost:5000/mews';
+
 loadingElement.style.display = 'none';
 
 form.addEventListener('submit', (event) => {
@@ -12,6 +14,15 @@ form.addEventListener('submit', (event) => {
   const mew = { name, content };
 
   loadingElement.style.display = '';
+
+  fetch(API_URL, {
+    method: 'POST',
+    body: JSON.stringify(mew),
+    headers: {
+      'content-type': 'application/json',
+    },
+  });
+
   setTimeout(() => {
     console.log(mew);
     loadingElement.style.display = 'none';
