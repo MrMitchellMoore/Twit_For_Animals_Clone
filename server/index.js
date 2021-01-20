@@ -8,6 +8,10 @@ app.get('/', (req, res) => {
   });
 });
 
+app.post('/meow', (req, res) => {
+  console.log(req.body);
+});
+
 app.listen(5000, () => {
   console.log('Listening on port 5000');
 });
