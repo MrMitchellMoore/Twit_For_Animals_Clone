@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.post('/meow', (req, res) => {
+app.post('/mews', (req, res) => {
   console.log(req.body);
 });
 
