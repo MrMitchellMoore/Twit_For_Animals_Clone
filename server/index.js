@@ -1,7 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const monk = require('monk');
 
 const app = express();
+
+// db setup
+const db = monk('mongodb://localhost:27017/growlers');
+db.then(() => {
+  console.log('Connected correctly to server');
+});
+const mews = db.get('growls');
 
 // middlewares
 app.use(cors());
@@ -26,8 +34,13 @@ app.post('/mews', (req, res) => {
     const mew = {
       name: req.body.name.toString(),
       content: req.body.content.toString(),
+      created: Date(),
     };
-    console.log(mew);
+    mews
+      .insert(mew)
+      .then((createdMew) => {
+        res.json(createdMew);
+      });
   } else {
     res.status(422);
     console.log('name and content required');

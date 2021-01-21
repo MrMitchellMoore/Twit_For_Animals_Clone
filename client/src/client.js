@@ -15,18 +15,22 @@ form.addEventListener('submit', (event) => {
 
   loadingElement.style.display = '';
 
-  fetch(API_URL, {
-    method: 'POST',
-    body: JSON.stringify(mew),
-    headers: {
-      'content-type': 'application/json',
-    },
-  });
-
   setTimeout(() => {
+    fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify(mew),
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((createdMew) => {
+        console.log(createdMew);
+      });
     console.log(mew);
     loadingElement.style.display = 'none';
     form.classList.remove('form');
   }, 1000);
+  form.reset();
   form.classList.add('form');
 });
