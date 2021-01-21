@@ -15,31 +15,32 @@ form.addEventListener('submit', (event) => {
 
   const mew = { name, content };
 
+  form.style.display = 'none';
   loadingElement.style.display = '';
 
-  setTimeout(() => {
-    fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify(mew),
-      headers: {
-        'content-type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((createdMew) => {
-        console.log(createdMew);
-      });
-    loadingElement.style.display = 'none';
-    form.classList.remove('form');
-  }, 1000);
-  form.reset();
-  form.classList.add('form');
+  fetch(API_URL, {
+    method: 'POST',
+    body: JSON.stringify(mew),
+    headers: {
+      'content-type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((createdMew) => {
+      console.log(createdMew);
+      form.reset();
+      form.style.display = '';
+      loadingElement.style.display = 'none';
+      listAllMews();
+    });
 });
 
 function listAllMews() {
+  mewsElement.innerHTML = '';
   fetch(API_URL)
     .then((response) => response.json())
     .then((mews) => {
+      mews.reverse();
       mews.forEach((mew) => {
         const div = document.createElement('div');
 
@@ -49,8 +50,12 @@ function listAllMews() {
         const contents = document.createElement('p');
         contents.textContent = mew.content;
 
+        const timestamps = document.createElement('small');
+        timestamps.textContent = new Date(mew.created);
+
         div.appendChild(header);
         div.appendChild(contents);
+        div.appendChild(timestamps);
 
         mewsElement.appendChild(div);
       });
