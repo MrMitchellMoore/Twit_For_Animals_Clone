@@ -28,6 +28,14 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/mews', (req, res) => {
+  mews
+    .find()
+    .then((allMews) => {
+      res.json(allMews);
+    });
+});
+
 app.post('/mews', (req, res) => {
   if (isValidMew(req.body)) {
     // somestuff

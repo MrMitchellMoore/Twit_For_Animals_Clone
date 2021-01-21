@@ -1,9 +1,11 @@
 const form = document.querySelector('form');
 const loadingElement = document.querySelector('.loading');
-
+const mewsElement = document.querySelector('.mews');
 const API_URL = 'http://localhost:5000/mews';
 
 loadingElement.style.display = 'none';
+
+listAllMews();
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -27,10 +29,30 @@ form.addEventListener('submit', (event) => {
       .then((createdMew) => {
         console.log(createdMew);
       });
-    console.log(mew);
     loadingElement.style.display = 'none';
     form.classList.remove('form');
   }, 1000);
   form.reset();
   form.classList.add('form');
 });
+
+function listAllMews() {
+  fetch(API_URL)
+    .then((response) => response.json())
+    .then((mews) => {
+      mews.forEach((mew) => {
+        const div = document.createElement('div');
+
+        const header = document.createElement('h3');
+        header.textContent = mew.name;
+
+        const contents = document.createElement('p');
+        contents.textContent = mew.content;
+
+        div.appendChild(header);
+        div.appendChild(contents);
+
+        mewsElement.appendChild(div);
+      });
+    });
+}
