@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const monk = require('monk');
@@ -5,11 +6,11 @@ const monk = require('monk');
 const app = express();
 
 // db setup
-const db = monk('mongodb://localhost:27017/growlers');
+const db = monk(process.env.DB_STRING);
 db.then(() => {
   console.log('Connected correctly to server');
 });
-const mews = db.get('growls');
+const mews = db.get(process.env.MEWS);
 
 // middlewares
 app.use(cors());
@@ -56,7 +57,7 @@ app.post('/mews', (req, res) => {
 });
 
 // fire up server
-app.listen(5000, (err) => {
+app.listen(process.env.PORT, (err) => {
   if (err) console.log(err);
   console.log('Listening on port 5000');
 });
